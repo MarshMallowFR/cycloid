@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { Fruit } from "@/pages/fruits/fruit.type";
+import { getAllFruits } from "@/pages/fruits/fruitApi";
 
 Vue.use(Vuex);
 
@@ -33,9 +34,11 @@ export default new Vuex.Store({
         commit("GET_FRUIT", res.json())
       );
     },
-    removeFruit({ commit }, fruitId: number): void {
-      fetch(`${url}/fruit/${fruitId}`, {
+    async removeFruit({ commit }, fruitId: number): Promise<void> {
+      await fetch(`${url}/fruit/${fruitId}`, {
         method: "DELETE",
+      }).then(async () => {
+        return getAllFruits();
       });
     },
     createFruit({ commit }, fruit: Fruit): void {

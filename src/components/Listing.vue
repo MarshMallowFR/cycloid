@@ -1,15 +1,39 @@
 <template>
-  <div class="hello">Listing</div>
+  <ul class="hello">
+    <li v-for="item of data" :key="item.id">
+      <Card :item="item" v-on="$listeners" />
+    </li>
+  </ul>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import Card from "@/components/Card.vue";
 
 export default Vue.extend({
   name: "Listing",
-  props: {},
+  components: {
+    Card,
+  },
+  props: {
+    data: Array,
+  },
 });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+ul {
+  width: 75%;
+  margin: auto;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  width: 100%;
+  margin: 32px auto;
+  display: flex;
+  justify-content: center;
+}
+</style>
