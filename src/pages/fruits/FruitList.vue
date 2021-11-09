@@ -1,15 +1,20 @@
 <template>
-  <Listing :data="getFruits" @deleteItem="deleteItem" />
+  <div>
+    <Dialog />
+    <Listing :data="getFruits" @deleteItem="deleteItem" />
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Listing from "@/components/Listing.vue";
+import Dialog from "@/components/Dialog.vue";
 import { flatten } from "@/utils/tools";
 
 export default Vue.extend({
   name: "FruitList",
   components: {
+    Dialog,
     Listing,
   },
   mounted() {

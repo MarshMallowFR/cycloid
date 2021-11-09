@@ -9,8 +9,8 @@
     <h3 class="card-details-name">{{ item.name }}</h3>
     <p class="card-details-description">{{ item.description }}</p>
     <div class="buttons">
-      <button class="primary edit">Edit</button>
-      <button class="primary ghost" @click="deleteItem(item.id)">Delete</button>
+      <button class="edit" :style="{ color: item.color }">Edit</button>
+      <button class="ghost" @click="deleteItem(item.id)">Delete</button>
     </div>
   </div>
 </template>
@@ -63,11 +63,11 @@ export default Vue.extend({
     width: 100px;
   }
 
-  button.primary {
+  .edit,
+  .ghost {
     background-color: #fff;
     border: 1px solid #fff;
     border-radius: 3px;
-    color: #231e39;
     font-family: Montserrat, sans-serif;
     font-weight: 500;
     padding: 10px 25px;

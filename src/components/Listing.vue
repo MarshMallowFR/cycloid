@@ -1,5 +1,5 @@
 <template>
-  <ul class="hello">
+  <ul class="list">
     <li v-for="item of data" :key="item.id">
       <Card :item="item" v-on="$listeners" />
     </li>
@@ -23,7 +23,7 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-ul {
+ul.list {
   width: 75%;
   margin: auto;
   padding: 0;
