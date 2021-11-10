@@ -1,24 +1,28 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { Fruit } from "@/pages/fruits/fruit.type";
-import { getAllFruits } from "@/pages/fruits/fruitApi";
+import { Fruit, FruitFetched } from "@/pages/fruits/fruit.type";
+import { flatten } from "@/utils/tools";
 
 Vue.use(Vuex);
 
 const url = "http://localhost:3000";
 
-type State = {
-  fruits: any;
+export type State = {
+  fruits: FruitFetched[];
+  showDialog: boolean;
 };
 
 export default new Vuex.Store({
   state: {
     fruits: [],
+    showDialog: false,
   },
   mutations: {
-    GET_ALL_FRUITS(state: State, fruits: any) {
-      // console.log({ fruits });
+    GET_ALL_FRUITS(state: State, fruits: FruitFetched[]) {
       state.fruits = fruits;
+    },
+    SHOW_DIALOG(state: State, value: boolean) {
+      state.showDialog = value;
     },
   },
   actions: {
@@ -26,32 +30,31 @@ export default new Vuex.Store({
       return fetch(`${url}/fruit`)
         .then((res: Response) => res.json())
         .then((data) => {
-          commit("GET_ALL_FRUITS", data);
+          commit("GET_ALL_FRUITS", flatten(data.data));
         });
     },
-    getFruit({ commit }, fruitId: number): void {
-      fetch(`${url}/fruit/${fruitId}`).then((res: Response) =>
-        commit("GET_FRUIT", res.json())
-      );
-    },
-    async removeFruit({ commit }, fruitId: number): Promise<void> {
-      await fetch(`${url}/fruit/${fruitId}`, {
+    async removeFruit({ dispatch }, fruitId: number): Promise<void> {
+      return fetch(`${url}/fruit/${fruitId}`, {
         method: "DELETE",
       }).then(async () => {
-        return getAllFruits();
+        return dispatch("getAllFruits");
       });
     },
-    createFruit({ commit }, fruit: Fruit): void {
-      fetch(`${url}/fruit`, {
+    async createFruit({ dispatch }, fruit: Fruit): Promise<void> {
+      return fetch(`${url}/fruit`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(fruit),
-      }).then((res: Response) => res.json());
+      }).then(async () => {
+        return dispatch("getAllFruits");
+      });
+    },
+    toggleDialog({ commit }, value: boolean): void {
+      commit("SHOW_DIALOG", value);
     },
   },
-  getters: {
-    allFruits(state) {
-      return state.fruits;
-    },
-  },
+  getters: {},
   modules: {},
 });

@@ -9,7 +9,13 @@
     <h3 class="card-details-name">{{ item.name }}</h3>
     <p class="card-details-description">{{ item.description }}</p>
     <div class="buttons">
-      <button class="edit" :style="{ color: item.color }">Edit</button>
+      <button
+        class="edit"
+        :style="{ color: item.color }"
+        @click="toggleDialog(true)"
+      >
+        Details
+      </button>
       <button class="ghost" @click="deleteItem(item.id)">Delete</button>
     </div>
   </div>
@@ -21,25 +27,20 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Card",
   props: {
-    item: {
-      id: Number,
-      name: String,
-      description: String,
-      image: String,
-      price: String,
-      color: String,
-    },
+    item: Object,
   },
   methods: {
-    deleteItem(itemId: number) {
-      console.log(itemId);
+    deleteItem(itemId: number): void {
       this.$emit("deleteItem", itemId);
+    },
+    toggleDialog(value: boolean): void {
+      this.$store.dispatch("toggleDialog", value);
+      this.$emit("toggleReadOnly", value, this.item);
     },
   },
 });
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .card {
   border-radius: 5px;

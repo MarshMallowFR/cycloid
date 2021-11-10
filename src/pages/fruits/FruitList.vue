@@ -1,15 +1,27 @@
 <template>
   <div>
-    <Dialog />
-    <Listing :data="getFruits" @deleteItem="deleteItem" />
+    <Dialog
+      :readOnly="readOnly"
+      :selectedItem="selectedItem"
+      :requiredFields="requiredFields"
+      @createItem="createFruit"
+      @toggleReadOnly="toggleReadOnly"
+    />
+    <Listing
+      :data="fruits"
+      @deleteItem="deleteItem"
+      @toggleReadOnly="toggleReadOnly"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import { mapState } from "vuex";
+
 import Listing from "@/components/Listing.vue";
 import Dialog from "@/components/Dialog.vue";
-import { flatten } from "@/utils/tools";
+import { Fruit } from "@/pages/fruits/fruit.type";
 
 export default Vue.extend({
   name: "FruitList",
@@ -17,21 +29,41 @@ export default Vue.extend({
     Dialog,
     Listing,
   },
+  data: () => {
+    return {
+      readOnly: false,
+      selectedItem: {},
+      requiredFields: {
+        name: "name",
+        image: "image",
+        price: "price",
+        color: "color",
+        description: "description",
+        taste: "taste",
+        expires: "expires",
+      },
+    };
+  },
   mounted() {
     this.$store.dispatch("getAllFruits");
   },
-  computed: {
-    getFruits() {
-      return flatten(this.$store.getters.allFruits.data);
-    },
-  },
+  computed: mapState(["fruits"]),
   methods: {
     deleteItem(itemId: number) {
       this.$store.dispatch("removeFruit", itemId);
     },
+    createFruit(fruit: Fruit) {
+      this.$store.dispatch("createFruit", {
+        ...fruit,
+        isFruit: true,
+        color: fruit.color.hex,
+      });
+      this.selectedItem = {};
+    },
+    toggleReadOnly(value: boolean, fruit: Fruit) {
+      this.readOnly = value;
+      this.selectedItem = fruit || {};
+    },
   },
 });
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>
