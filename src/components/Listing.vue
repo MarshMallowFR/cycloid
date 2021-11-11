@@ -1,6 +1,6 @@
 <template>
   <ul class="list">
-    <li v-for="item of data" :key="item.id">
+    <li v-for="item of data" :key="item.id" class="list-card">
       <Card :item="item" v-on="$listeners" />
     </li>
   </ul>

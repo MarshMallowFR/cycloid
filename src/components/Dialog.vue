@@ -2,6 +2,7 @@
   <div>
     <v-alert
       v-if="isIncomplete"
+      data-test="alert"
       color="red"
       elevation="6"
       type="error"
@@ -9,7 +10,7 @@
       >Some informations are missing</v-alert
     >
     <v-row justify="center" width="75%" class="mt-12">
-      <v-dialog v-model="showDialog" persistent max-width="700px">
+      <v-dialog :value="showDialog" persistent max-width="700px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             color="success"
@@ -17,6 +18,7 @@
             v-bind="attrs"
             v-on="on"
             @click="toggleDialog(true)"
+            class="add-btn"
           >
             Add fruit
           </v-btn>
@@ -95,7 +97,12 @@
             <v-btn color="blue darken-1" text @click="toggleDialog(false)">
               Close
             </v-btn>
-            <v-btn color="blue darken-1" text @click="createItem()">
+            <v-btn
+              data-test="save-btn"
+              color="blue darken-1"
+              text
+              @click="createItem()"
+            >
               {{ readOnly ? "OK" : "Save" }}
             </v-btn>
           </v-card-actions>
@@ -106,7 +113,7 @@
 </template>
 
 <script lang="ts">
-import { Fruit } from "@/pages/fruits/fruit.type";
+import { FruitFetched } from "@/pages/fruits/fruit.type";
 
 export default {
   props: {
@@ -124,7 +131,7 @@ export default {
     },
   },
   watch: {
-    selectedItem: function (selectedItem: Fruit): void {
+    selectedItem: function (selectedItem: FruitFetched): void {
       this.item =
         Object.keys(selectedItem).length > 0
           ? {

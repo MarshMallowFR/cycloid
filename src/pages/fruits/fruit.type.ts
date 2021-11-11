@@ -1,15 +1,17 @@
-export type FruitFetched = {
-  isFruit: boolean;
-  id: number;
-  color: string;
-} & Fruit;
-
-export type Fruit = {
+export type CommonFruit = {
   name: string;
   image: string;
   price: string;
-  color: { hex: string };
   description: string;
   taste: string;
   expires: string;
 };
+export type FruitFetched = {
+  isFruit: boolean;
+  id: number;
+  color: string;
+} & CommonFruit;
+
+export type FruitEdit = {
+  color: { hex: string };
+} & CommonFruit;

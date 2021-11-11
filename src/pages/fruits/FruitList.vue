@@ -21,7 +21,7 @@ import { mapState } from "vuex";
 
 import Listing from "@/components/Listing.vue";
 import Dialog from "@/components/Dialog.vue";
-import { Fruit } from "@/pages/fruits/fruit.type";
+import { FruitEdit } from "@/pages/fruits/fruit.type";
 
 export default Vue.extend({
   name: "FruitList",
@@ -52,7 +52,7 @@ export default Vue.extend({
     deleteItem(itemId: number) {
       this.$store.dispatch("removeFruit", itemId);
     },
-    createFruit(fruit: Fruit) {
+    createFruit(fruit: FruitEdit) {
       this.$store.dispatch("createFruit", {
         ...fruit,
         isFruit: true,
@@ -60,7 +60,7 @@ export default Vue.extend({
       });
       this.selectedItem = {};
     },
-    toggleReadOnly(value: boolean, fruit: Fruit) {
+    toggleReadOnly(value: boolean, fruit: FruitEdit) {
       this.readOnly = value;
       this.selectedItem = fruit || {};
     },

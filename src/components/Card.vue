@@ -16,7 +16,7 @@
       >
         Details
       </button>
-      <button class="ghost" @click="deleteItem(item.id)">Delete</button>
+      <button class="delete" @click="deleteItem(item.id)">Delete</button>
     </div>
   </div>
 </template>
@@ -65,7 +65,7 @@ export default Vue.extend({
   }
 
   .edit,
-  .ghost {
+  .delete {
     background-color: #fff;
     border: 1px solid #fff;
     border-radius: 3px;
@@ -79,7 +79,7 @@ export default Vue.extend({
     &.edit {
       margin-right: 4px;
     }
-    &.ghost {
+    &.delete {
       background-color: transparent;
       color: #fff;
       margin-left: 4px;

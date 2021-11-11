@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { Fruit, FruitFetched } from "@/pages/fruits/fruit.type";
+import { FruitEdit, FruitFetched } from "@/pages/fruits/fruit.type";
 import { flatten } from "@/utils/tools";
 
 Vue.use(Vuex);
@@ -40,7 +40,7 @@ export default new Vuex.Store({
         return dispatch("getAllFruits");
       });
     },
-    async createFruit({ dispatch }, fruit: Fruit): Promise<void> {
+    async createFruit({ dispatch }, fruit: FruitEdit): Promise<void> {
       return fetch(`${url}/fruit`, {
         method: "POST",
         headers: {

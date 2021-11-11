@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app app-data="true">
     <v-main>
       <FruitList />
     </v-main>

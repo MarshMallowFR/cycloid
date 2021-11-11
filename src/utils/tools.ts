@@ -1,4 +1,4 @@
-import { Fruit } from "@/pages/fruits/fruit.type";
+import { FruitFetched } from "@/pages/fruits/fruit.type";
 
 const fruitEnum: Record<string, string> = {
   isFruit: "isFruit",
@@ -24,7 +24,7 @@ export const isFruit = (data: any): boolean => {
   return false;
 };
 
-const traverseAndFlatten = (currentNode: any, fruits: Fruit[]) => {
+const traverseAndFlatten = (currentNode: any, fruits: FruitFetched[]) => {
   if (isFruit(currentNode)) {
     fruits.push(currentNode);
   }
@@ -37,7 +37,7 @@ const traverseAndFlatten = (currentNode: any, fruits: Fruit[]) => {
 };
 
 export const flatten = (obj: any) => {
-  const fruits: Fruit[] = [];
+  const fruits: FruitFetched[] = [];
   traverseAndFlatten(obj, fruits);
   return fruits;
 };
